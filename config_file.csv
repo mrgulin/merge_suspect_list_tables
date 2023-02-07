@@ -1,0 +1,10 @@
+source,internal_index,cas_number,name_in_list,inchikey,inchi,iupac,smiles,formula,monoisotopic_mass,comment,approximate_mass
+litminedneuro_list_chemicals-2019-06-10-09-31-17_listNegative_1.xlsx,DTXSID,CASRN,PREFERRED_NAME,INCHIKEY,INCHI_STRING,IUPAC_NAME,SMILES,MOLECULAR_FORMULA,MONOISOTOPIC_MASS,,
+humanneurotox_list_chemicals-2019-06-11-16-26-27_listNegative_2.xlsx,DTXSID,CASRN,PREFERRED_NAME,INCHIKEY,INCHI_STRING,IUPAC_NAME,SMILES,MOLECULAR_FORMULA,MONOISOTOPIC_MASS,,
+dnteffects_list_chemicals-2019-06-10-10-02-57_listNegative3.xlsx,DTXSID,CASRN,PREFERRED_NAME,INCHIKEY,INCHI_STRING,IUPAC_NAME,SMILES,MOLECULAR_FORMULA,MONOISOTOPIC_MASS,,
+dntpotneg_list_chemicals-2019-06-10-10-03-29_ListNegative4.xlsx,DTXSID,CASRN,PREFERRED_NAME,INCHIKEY,INCHI_STRING,IUPAC_NAME,SMILES,MOLECULAR_FORMULA,MONOISOTOPIC_MASS,,
+dntinvivo_list_chemicals-2019-06-10-10-02-31_listNegative5.xlsx,DTXSID,CASRN,PREFERRED_NAME,INCHIKEY,INCHI_STRING,IUPAC_NAME,SMILES,MOLECULAR_FORMULA,MONOISOTOPIC_MASS,,
+neurotoxins_list6.xlsx,,,Compound,,,,,,,Type,
+neurotoxins_list7.xlsx,,CAS No. ,Comopund Name,,,,,Molecular formula,Monoisotopic mass,Group,
+neuroprotective_list8.xlsx,,,Compound,,,,,formula,,group,monoisotopoic mass
+pos and neg neuroactive from cherry tomato_list9.xlsx,KEGG_ID,,Compounds,,,,,,,Class ,Molecular Weight (Da)
