@@ -1,4 +1,4 @@
-source,name_in_list,formula,approximate_mass
-neurotoxins_list6.xlsx,Compound,,
-neuroprotective_list8.xlsx,Compound,formula,monoisotopoic mass
-pos and neg neuroactive from cherry tomato_list9.xlsx,Compounds,,Molecular Weight (Da)
+source,internal_index,cas_number,name_in_list,inchikey,inchi,iupac,smiles,formula,monoisotopic_mass,comment,approximate_mass,recalculate
+neurotoxins_list6.xlsx,,,Compound,,,,,,,Type,,True
+neuroprotective_list8.xlsx,,,Compound,,,,,formula,,group,monoisotopoic mass,True
+pos and neg neuroactive from cherry tomato_list9.xlsx,KEGG_ID,,Compounds,,,,,,,Class ,Molecular Weight (Da),True
