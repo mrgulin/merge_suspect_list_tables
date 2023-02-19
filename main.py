@@ -3,6 +3,8 @@ import os
 import numpy as np
 import pandas as pd
 
+import fill_missing_fields
+
 # os.listdir('combined')
 
 FOLDER = "combined"
@@ -15,7 +17,7 @@ def merge_compounds():
     df_tuple = []
     for row_index, row in config_df.iterrows():
         print(row['source'])
-        partial_df = pd.read_excel(f"{FOLDER}/{row['source']}", header=True, sheet_name=0)
+        partial_df = pd.read_excel(f"{FOLDER}/{row['source']}", sheet_name=0)
 
         rename_dict = {  # row['source']: 'source',
             row['internal_index']: 'internal_index',
@@ -44,7 +46,7 @@ def deduplicate_df(df: pd.DataFrame, unique_columns=('inchikey', 'cas_number', '
 
     df_filtered = df
     for column in unique_columns:
-        df_filtered = df.drop_duplicates(subset=[column])
+        df_filtered = df_filtered[(~df_filtered[column].duplicated()) | (df_filtered[column].isnull())]
         print(f"After dropping {column} we are left with {len(df_filtered)} rows.")
 
     return df_filtered
@@ -57,10 +59,9 @@ def sort_on_mass(df):
         except ValueError:
             ret = 0
         return ret
-
+    df = df.copy()
     df.fillna("", inplace=True)
-    df["approximate_mass"] = df['monoisotopic_mass'].astype(str) + \
-        df['approximate_mass'].astype(str)
+    df.loc[df["approximate_mass"] == '', "approximate_mass"] = df.loc[df["approximate_mass"] == '', "monoisotopic_mass"]
     df["approximate_mass"] = df["approximate_mass"].apply(to_float)
 
     df.sort_values(by=['approximate_mass'], inplace=True)
@@ -68,6 +69,8 @@ def sort_on_mass(df):
 
 
 def main():
+    # fill_missing_fields.handle_inperfect_excel_files()
+
     df_all = merge_compounds()
     df_filtered = deduplicate_df(df_all)
     df_sorted = sort_on_mass(df_filtered)

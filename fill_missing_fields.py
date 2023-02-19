@@ -6,9 +6,11 @@ import pandas as pd
 from cirpy import Molecule
 from multiprocessing import Pool
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 FOLDER = "combined"
 
+RESULT_LIST = []
 
 class StatusOptions:
     SUCCESS = "success"
@@ -33,7 +35,6 @@ def obtain_info_about_molecule(value: str, resolvers=('name_by_opsin', 'name_by_
 
         for table_name, request_name in request_dictionary.items():
             response = mol_obj.__getattribute__(request_name)
-            print(f"{value}: {response}")
             if response is not None:
                 output_dictionary[table_name] = response
             else:
@@ -58,18 +59,16 @@ def resolve_list_of_compounds(input_list: list[str], timeout_sec: int) -> pd.Dat
 
     final_list = []
 
-    def my_callback(result_dict):
-        if result_dict is not None:
-            final_list.append(result_dict)
+    with ThreadPoolExecutor(20) as executor:
+        threads = [executor.submit(obtain_info_about_molecule, compound_name) for compound_name in input_list]
 
-    pool = Pool(20)
-    result = [pool.apply_async(obtain_info_about_molecule, args=(compound_name,), callback=my_callback)
-              for compound_name in input_list]
+        while any([thread.running() for thread in threads]):
+            time.sleep(1)
+        exceptions = [thread.exception() for thread in threads if thread.exception()]
+        print(exceptions)
 
-    time.sleep(timeout_sec)
-    pool.terminate()
+        final_list = [i.result() for i in threads]
     final_list = [i for i in final_list if i is not None]
-
     df = pd.DataFrame(final_list)
     df = df.set_index(df['name_in_list'])
     return df
@@ -104,7 +103,7 @@ def handle_inperfect_excel_files(recalculate_on=(StatusOptions.FAILED,), timeout
             df = get_new_excel_file(original_file_path, row)
 
         df = df.set_index(df['name_in_list'])
-
+        df = df[~df.index.duplicated(keep='first')]
         unresolved_names = df.loc[df['status'].isin(recalculate_on) | df['status'].isna(),
                                   'name_in_list'].tolist()
         if len(unresolved_names) == 0:
@@ -112,6 +111,9 @@ def handle_inperfect_excel_files(recalculate_on=(StatusOptions.FAILED,), timeout
         resolved_structures_df = resolve_list_of_compounds(unresolved_names, timeout_sec=timeout_seconds)
         resolved_structures_df['cas_number'] = resolved_structures_df['cas_number'].apply(
             lambda x: "\n".join(x) if isinstance(x, list) else x)
+        for column in resolved_structures_df.columns:
+            if column not in df.columns:
+                df[column] = np.nan
         df.update(resolved_structures_df)
         df.to_excel(f"{FOLDER}/{row['source'][:-5]}_filled.xlsx", index=False)
 
