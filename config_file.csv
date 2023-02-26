@@ -8,3 +8,4 @@ neurotoxins_list6_filled.xlsx,,cas_number,name_in_list,inchikey,inchi,iupac,smil
 neurotoxins_list7.xlsx,,CAS No. ,Comopund Name,,,,,Molecular formula,Monoisotopic mass,Group,
 neuroprotective_list8_filled.xlsx,,cas_number,name_in_list,inchikey,inchi,iupac,smiles,formula,monoisotopic_mass,comment_old,approximate_mass
 pos and neg neuroactive from cherry tomato_list9_filled.xlsx,internal_index,cas_number,name_in_list,inchikey,inchi,iupac,smiles,formula,monoisotopic_mass,comment_old,approximate_mass
+alternative_all_filled.xlsx,,cas_number,name_in_list,inchikey,inchi,iupac,smiles,formula,monoisotopic_mass,,

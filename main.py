@@ -27,7 +27,7 @@ def merge_compounds():
             row['monoisotopic_mass']: 'monoisotopic_mass', row['comment']: 'comment',
             row['approximate_mass']: 'approximate_mass'}
         partial_df['source'] = row['source']
-        important_columns = list(rename_dict.keys())
+        important_columns = list(rename_dict.keys()) + ['source']
 
         important_columns_filtered = [col_name for col_name in important_columns if not pd.isna(col_name)]
 
